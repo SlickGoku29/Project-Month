@@ -7,19 +7,31 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 public class MainScreen {
-    private JFrame gameFrame; // when the game launches 
+    private JFrame mainFrame; // when the game launches 
     private JPanel mainMenuPanel; // menu where game resides 
     private JPanel additionalPanel; 
+
     private int panelWidth = 1280; // MAX Width
     private int panelHeight = 720; // MAX Height
 
     // To run the Main Screen
-    public MainScreen(){ 
+    public MainScreen( ){ 
         initialize();
-    }
+        mainMenuPanel = new JPanel(new BorderLayout()) {
+            private final Image bg =
+                    new ImageIcon("IMAGE PATH HERE").getImage();
 
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(bg, 0, 0, getWidth(), getHeight(), this);
+            }
+        };
+        
+    }
+    
     // Where the MainScreen feature live
-    public void initialize() {
+    public void initialize() { 
     	
 /*    	// --------> JAVA SWING - LESSON 2 - Set up the MainScreen
  *         Create JFrame
@@ -29,14 +41,14 @@ public class MainScreen {
 */
     	
         // --------> STEP 1: Create JFrame, a window that launches the application ( LESSON 2 )
-        gameFrame = new JFrame();
-        gameFrame.setTitle("GameExample Launcher");
-        gameFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        mainFrame = new JFrame();
+        mainFrame.setTitle("GameExample Launcher");
+        mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         
         // ➡️ ---> REPLACE <--- ⬅️ 
-        gameFrame.setMinimumSize(new Dimension(panelWidth, panelHeight)); // Prevents the user from making the frame too small
-        // gameFrame.setSize(panelWidth, panelHeight); // 16:9 Ratio OR 1920 x 1080   
-        gameFrame.setLocationRelativeTo(null);
+        mainFrame.setMinimumSize(new Dimension(panelWidth, panelHeight)); // Prevents the user from making the frame too small
+        // mainFrame.setSize(panelWidth, panelHeight); // 16:9 Ratio OR 1920 x 1080   
+        mainFrame.setLocationRelativeTo(null);
 
         // --------> STEP 2: Create JPanel, houses objects for the screen ( LESSON 2 )
         mainMenuPanel = new JPanel();
@@ -54,41 +66,8 @@ public class MainScreen {
         myLabel.setFont(new Font("San Serif", Font.BOLD, 20)); 
         myLabel.setForeground(Color.WHITE);
         additionalPanel.add(myLabel); 
-        
-        // ------------------- LESSON 2 - MENU BUTTONS ------------------- //
-        // --------> STEP 3: Create basic buttons ( LESSON 2 )
-        // JButton button = new JButton("HELLO :D!"); 
-        // mainMenuPanel.add(button); 
-        // button.setFocusable(false);
 
-        // JButton button2 = new JButton("BUTTON"); 
-        // additionalPanel.add(button2); 
-        // button2.setFocusable(false);
-
-        // // ------------------- LESSON 3 - MENU BUTTONS UPDATED ( VERSION 1 ) { done in class } ------------------- //
-        
-        // // --------> STEP 1: Create the buttons
-        // JButton gameScreenButton = new JButton("G A M E"); 
-        // JButton settingsScreenButton = new JButton("S E T T I N G S"); 
-        // JButton creditScreenButton = new JButton("C R E D I T S"); 
-        
-        // // --------> STEP 2: Add the buttons to the menu panel        
-        // mainMenuPanel.add(gameScreenButton); 
-        // mainMenuPanel.add(settingsScreenButton); 
-        // mainMenuPanel.add(creditScreenButton);
-
-        // gameScreenButton.setFocusPainted(false); // removes the button from being highlighted automatically
-        // settingsScreenButton.setFocusPainted(false); // removes the button from being highlighted automatically
-        // creditScreenButton.setFocusPainted(false); // removes the button from being highlighted automatically
-        
-        // // --------> STEP 3: Give the buttons some action
-        // gameScreenButton.addActionListener(e -> {
-        //     System.out.println("New Game button clicked!");
-        //     // new GameScreen().setVisible(true); // Opens the new screen
-        //     gameFrame.dispose(); // Closes the main menu
-        // });
-
-        // ------------------- LESSON 3 - MENU BUTTONS UPDATED ( VERSION 2 ) { instructor provides } ------------------- //
+    // ------------------- LESSON 3 - MENU BUTTONS UPDATED ( VERSION 2 ) { instructor provides } ------------------- //
 
 	// --------> STEP 1: Create the buttons
 
@@ -100,12 +79,12 @@ public class MainScreen {
         		);
 
         // --------> STEP 3: Give the GAME BUTTON some action 
-	// --------> 🔥Specific location where the button goes
+	    // --------> 🔥Specific location where the button goes
         // --------> 🖥️ This action takes you to a new screen
         gameScreenButton.addActionListener(e -> {
             System.out.println("New Game button clicked!");
             new GameScreen().setVisible(true); // Opens the new screen
-            gameFrame.dispose(); // Closes the main menu
+            mainFrame.dispose(); // Closes the main menu
         });
 
         JButton settingsScreenButton = createButton(
@@ -131,29 +110,17 @@ public class MainScreen {
         mainMenuPanel.add(settingsScreenButton);
         mainMenuPanel.add(creditScreenButton);
 
-        // gameScreenButton.addActionListener(new ActionListener() {
-        // @Override
-        // public void actionPerformed(ActionEvent e) {
-        // GameScreen openNewGameScreen = new GameScreen();
-
-        // JFrame mainFrame = (JFrame) SwingUtilities.getWindowAncestor(gameScreenButton);
-        //     if (mainFrame !=null) {
-        //     mainFrame.dispose();
-        //         }
-        //     }
-        // });
-
         // ------------------- SET CONTENT PANEL TO FRAME ------------------- //
         // --------> LESSON 1: Position the menu where you need it  
-        gameFrame.add(mainMenuPanel, BorderLayout.CENTER); // adds the panel to the frame but Center
-        gameFrame.add(additionalPanel, BorderLayout.WEST); // adds the panel to the frame but West
-
+        mainFrame.add(mainMenuPanel, BorderLayout.CENTER); // adds the panel to the frame but Center
+        mainFrame.add(additionalPanel, BorderLayout.WEST); // adds the panel to the frame but West
+        mainFrame.add(mainMenuPanel);
         show(); 
     }// END INITIALIZE
     
     // SHOW GAME
     public void show() {
-		this.gameFrame.setVisible(true);
+		this.mainFrame.setVisible(true);
 	}// END SHOW  
     
     // ------------------- LESSON 3 - MENU BUTTONS UPDATED ( VERSION 2 ) { instructor provides } ------------------- //
@@ -217,7 +184,8 @@ public class MainScreen {
 	    });
 	    return button;
 	}// END CREATE BUTTON
-        public void setVisible(boolean b) {
-        gameFrame.setVisible(b);
+    
+    public void setVisible(boolean b) {
+        mainFrame.setVisible(b);
     }
 }// END CLASS
