@@ -96,9 +96,8 @@ public class GameScreen extends JPanel implements ActionListener, KeyListener {
 
     private void switchToMainScreen(JButton sourceButton){
 
-        MainScreen runMainScreen = new MainScreen();
-        runMainScreen.setVisible(true);
-
+        MainScreen MainScreen = new MainScreen();
+        
         JFrame currentFrame = (JFrame) SwingUtilities.getWindowAncestor(sourceButton);
         if (currentFrame !=null) {
             currentFrame.dispose();
