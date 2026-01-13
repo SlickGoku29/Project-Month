@@ -30,7 +30,7 @@ public class MainScreen {
 
         // -------- BACKGROUND PANEL --------
         mainScreenPanel = new JPanel(new BorderLayout()) {
-            private final Image bg = new ImageIcon("src/resources/bkg/cheese.jpg").getImage();
+            private final Image bg = new ImageIcon("src/resources/bkg/Persona3roof.png").getImage();
 
             @Override
             protected void paintComponent(Graphics g) {
